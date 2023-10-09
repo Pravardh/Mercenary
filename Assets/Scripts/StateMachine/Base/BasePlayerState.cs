@@ -1,3 +1,4 @@
+using Mercenary.Audio;
 using Mercenary.HealthSystem;
 using Mercenary.Input;
 using System.Security.Cryptography;
@@ -14,6 +15,9 @@ namespace Mercenary.StateMachine
 
         protected Transform playerGroundCheck;
 
+        protected AudioHandler playerAudioHandler;
+
+
         protected float playerJumpMagnitude = 20f;
 
         protected float playerMovementValue;
@@ -24,13 +28,16 @@ namespace Mercenary.StateMachine
         protected int playerTotalAttackAmount = 8;
         protected int playerCurrentAttackAmount;
 
+
+
         //Data container
 
-        public BasePlayerState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, Rigidbody2D rigidbody, PlayerInputReader inputReader, Transform playerGroundCheck) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem)
+        public BasePlayerState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, Rigidbody2D rigidbody, PlayerInputReader inputReader, Transform playerGroundCheck, AudioHandler playerAudioHandler) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem)
         {
             playerRigidbody = rigidbody;
             playerInputReader = inputReader;
             this.playerGroundCheck = playerGroundCheck;
+            this.playerAudioHandler = playerAudioHandler;
         }
 
         public override void OnBegin()

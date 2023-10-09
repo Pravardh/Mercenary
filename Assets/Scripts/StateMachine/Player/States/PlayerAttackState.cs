@@ -1,7 +1,6 @@
 using Mercenary.HealthSystem;
 using Mercenary.Input;
-using System.Collections;
-using System.Collections.Generic;
+using Mercenary.Audio;
 using UnityEngine;
 
 namespace Mercenary.StateMachine
@@ -9,7 +8,7 @@ namespace Mercenary.StateMachine
     public class PlayerAttackState : BasePlayerState
     {
         private IHealthSystem enemyToAttack;
-        public PlayerAttackState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, PlayerInputReader inputReader, Rigidbody2D rigidbody, Transform groundCheck) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem, rigidbody, inputReader, groundCheck)
+        public PlayerAttackState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, PlayerInputReader inputReader, Rigidbody2D rigidbody, Transform groundCheck, AudioHandler audioHandler) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem, rigidbody, inputReader, groundCheck, audioHandler)
         {
             characterAttackRange = 2.5f;
         }
@@ -18,7 +17,8 @@ namespace Mercenary.StateMachine
         {
             if (!CanAttack()) return;
 
-            playerCurrentAttackAmount += 1;
+            playerAudioHandler.PlayAudio("KnifeStab", true);
+
             characterAnimator.SetTrigger("isAttacking");
             Debug.Log("Is attacking;");
             base.OnBegin();
@@ -39,8 +39,7 @@ namespace Mercenary.StateMachine
             AnimatorStateInfo playerAnimInfo = characterAnimator.GetCurrentAnimatorStateInfo(0);
             if (playerAnimInfo.IsName("Attack") && playerAnimInfo.normalizedTime >= 1.0f)
             {
-               Debug.Log("Idling now");
-               SwitchState(new PlayerIdleState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck));
+               SwitchState(new PlayerIdleState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler));
             }
         }
         public override void OnEnd()

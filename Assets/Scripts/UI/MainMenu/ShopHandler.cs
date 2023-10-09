@@ -23,8 +23,6 @@ namespace Mercenary.UI
         private long currentTime;
         private long endTime;
 
-        private bool hasUpgradeStarted = false;
-        private bool hasPurchasedInvisibility = false;
         private void Awake()
         {
             if(buyInvisibilityWithCoinsButton != null)
@@ -126,8 +124,6 @@ namespace Mercenary.UI
                 {
                     endTime = Convert.ToInt64(upgradeFinishTime);
                 }
-
-                hasUpgradeStarted = true;
 
                 float timeToComplete = endTime - currentTime;
 

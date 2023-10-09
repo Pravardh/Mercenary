@@ -1,9 +1,8 @@
 using Mercenary.HealthSystem;
 using Mercenary.Input;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Mercenary.Audio;
 using UnityEngine;
 
 
@@ -11,7 +10,7 @@ namespace Mercenary.StateMachine
 {
     public class PlayerDeathState : BasePlayerState
     {
-        public PlayerDeathState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, PlayerInputReader inputReader, Rigidbody2D rigidbody, Transform groundCheck) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem, rigidbody, inputReader, groundCheck)
+        public PlayerDeathState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, PlayerInputReader inputReader, Rigidbody2D rigidbody, Transform groundCheck, AudioHandler audioHandler) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem, rigidbody, inputReader, groundCheck, audioHandler)
         {
 
         }

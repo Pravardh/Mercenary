@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mercenary.Input;
 using Mercenary.HealthSystem;
+using Mercenary.Audio;
 
 namespace Mercenary.StateMachine
 {
@@ -12,6 +13,7 @@ namespace Mercenary.StateMachine
         private Rigidbody2D playerRigidbody;
         private PlayerInputReader playerInputReader;
         private BasePlayerState playerState;
+        private AudioHandler playerAudioHandler;
 
         private IHealthSystem playerHealthSystem;
         // Start is called before the first frame update
@@ -22,9 +24,9 @@ namespace Mercenary.StateMachine
             playerRigidbody = GetComponent<Rigidbody2D>();
             playerInputReader = GetComponent<PlayerInputReader>();
             playerHealthSystem = GetComponent<IHealthSystem>();
+            playerAudioHandler = GetComponent<AudioHandler>();
 
-
-            playerState = new PlayerIdleState(gameObject, characterEyes, characterAnimator, playerHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck);
+            playerState = new PlayerIdleState(gameObject, characterEyes, characterAnimator, playerHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler);
             
         }
 

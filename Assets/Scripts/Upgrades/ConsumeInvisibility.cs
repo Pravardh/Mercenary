@@ -2,6 +2,7 @@ using Mercenary.Input;
 using PlayFab;
 using PlayFab.ClientModels;
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -56,13 +57,24 @@ namespace Mercenary.Abilities
                 result =>
                 {
                     Debug.Log("Consumed item successfully");
-                    PlayerPrefs.SetString("Invisibility", "True");
+                    StartCoroutine("EnableInvisibility");
                 },
                 error =>
                 {
                     Debug.Log("Consumed item fail" + error.ErrorMessage);
 
                 });
+        }
+
+        IEnumerator EnableInvisibility()
+        {
+            PlayerPrefs.SetString("Invisibility", "True");
+
+            yield return new WaitForSeconds(15);
+            
+            PlayerPrefs.DeleteKey("Invisibility");
+            PlayerPrefs.Save();
+
         }
 
         //GameManager.OnLevelEnded += FUNCTION TO REMOVE PLAYER PREFS INVISIBILITY

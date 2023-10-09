@@ -1,3 +1,4 @@
+using Mercenary.Audio;
 using Mercenary.HealthSystem;
 using Mercenary.Input;
 using System.Collections;
@@ -8,7 +9,7 @@ namespace Mercenary.StateMachine
 {
     public class PlayerIdleState : BasePlayerState
     {
-        public PlayerIdleState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, PlayerInputReader inputReader, Rigidbody2D rigidbody, Transform groundCheck) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem, rigidbody, inputReader, groundCheck)
+        public PlayerIdleState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, PlayerInputReader inputReader, Rigidbody2D rigidbody, Transform groundCheck, AudioHandler audioHandler) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem, rigidbody, inputReader, groundCheck, audioHandler)
         {
 
         }
@@ -26,22 +27,22 @@ namespace Mercenary.StateMachine
 
             if (playerMovementValue != 0)
             {
-                SwitchState(new PlayerMoveState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck));
+                SwitchState(new PlayerMoveState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler));
             }
 
             if (playerIsJumping && IsGrounded())
             {
-                SwitchState(new PlayerJumpState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck));
+                SwitchState(new PlayerJumpState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler));
             }
 
             if (playerIsAttacking)
             {
-                SwitchState(new PlayerAttackState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck));
+                SwitchState(new PlayerAttackState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler));
             }
 
             if (characterHealthSystem.IsDead())
             {
-                SwitchState(new PlayerDeathState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck));
+                SwitchState(new PlayerDeathState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler));
             }
 
         }

@@ -1,14 +1,13 @@
 using Mercenary.HealthSystem;
 using Mercenary.Input;
-using System.Collections;
-using System.Collections.Generic;
+using Mercenary.Audio;
 using UnityEngine;
 
 namespace Mercenary.StateMachine
 {
     public class PlayerFallState : BasePlayerState
     {
-        public PlayerFallState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, PlayerInputReader inputReader, Rigidbody2D rigidbody, Transform groundCheck) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem, rigidbody, inputReader, groundCheck)
+        public PlayerFallState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, PlayerInputReader inputReader, Rigidbody2D rigidbody, Transform groundCheck, AudioHandler audioHandler) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem, rigidbody, inputReader, groundCheck, audioHandler)
         {
 
         }
@@ -25,7 +24,7 @@ namespace Mercenary.StateMachine
 
             if (IsGrounded())
             {
-                SwitchState(new PlayerIdleState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck));
+                SwitchState(new PlayerIdleState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler));
             }
 
 

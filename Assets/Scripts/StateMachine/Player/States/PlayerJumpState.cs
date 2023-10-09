@@ -1,14 +1,13 @@
 using Mercenary.HealthSystem;
 using Mercenary.Input;
-using System.Collections;
-using System.Collections.Generic;
+using Mercenary.Audio;
 using UnityEngine;
 
 namespace Mercenary.StateMachine
 {
     public class PlayerJumpState : BasePlayerState
     {
-        public PlayerJumpState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, PlayerInputReader inputReader, Rigidbody2D rigidbody, Transform groundCheck) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem, rigidbody, inputReader, groundCheck)
+        public PlayerJumpState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, PlayerInputReader inputReader, Rigidbody2D rigidbody, Transform groundCheck, AudioHandler audioHandler) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem, rigidbody, inputReader, groundCheck, audioHandler)
         {
 
         }
@@ -26,7 +25,7 @@ namespace Mercenary.StateMachine
 
             if (playerRigidbody.velocity.y < 0)
             {
-                SwitchState(new PlayerFallState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck));
+                SwitchState(new PlayerFallState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler));
             }
 
         }
