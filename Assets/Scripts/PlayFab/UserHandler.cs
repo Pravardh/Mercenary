@@ -16,8 +16,6 @@ namespace Mercenary.User
         private static UserHandler instance;
         public static UserHandler Instance;
 
-        public static GetUserInventoryResult UserInventory { get; private set; }
-
         private void Awake()
         {
             if(instance == null)
@@ -31,6 +29,7 @@ namespace Mercenary.User
             }
 
         }
+
 
         private void Update()
         {

@@ -68,10 +68,6 @@ namespace Mercenary.UI
                         PurchaseWithCoins();
                         PlayerPrefs.DeleteKey("EndTime");
                     }
-                    else
-                    {
-                        TimeSpan remainingTime = savedDateTime - DateTime.Now;
-                    }
                 }    
             }
         }

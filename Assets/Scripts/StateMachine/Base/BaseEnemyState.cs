@@ -1,4 +1,5 @@
 using Mercenary.HealthSystem;
+using Mercenary.User;
 using Mercenary.Utilities;
 using System.Collections;
 using System.Collections.Generic;
@@ -65,6 +66,11 @@ namespace Mercenary.StateMachine
         {
             //Use data container for range
             //Returns null if enemy is not in range
+
+            //Check to see if I contain 
+
+            if (PlayerPrefs.HasKey("Invisibility")) return null;
+
             Vector2 _startPosition = characterEyes.position;
 
             RaycastHit2D hitInfo = Physics2D.Raycast(

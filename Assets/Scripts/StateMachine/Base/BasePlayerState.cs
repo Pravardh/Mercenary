@@ -62,7 +62,6 @@ namespace Mercenary.StateMachine
             return playerCurrentAttackAmount < playerTotalAttackAmount;
         }
 
-
         protected bool IsGrounded()
         {
             bool isGrounded = Physics2D.OverlapCircle(playerGroundCheck.position, 0.2f, GROUND_LAYER_MASK);

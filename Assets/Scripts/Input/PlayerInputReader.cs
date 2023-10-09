@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,9 @@ namespace Mercenary.Input
         public float PlayerMovementValue { get; private set; }
         public bool PlayerJumpValue { get; private set; }
         public bool PlayerAttackValue { get; private set; }
+
+        public event Action PlayerConsumeEvent;
+
 
         private Controls playerControls;
 
@@ -43,5 +47,10 @@ namespace Mercenary.Input
                 PlayerMovementValue = 0f;
         }
 
+        public void OnConsume(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                PlayerConsumeEvent?.Invoke();
+        }
     }
 }

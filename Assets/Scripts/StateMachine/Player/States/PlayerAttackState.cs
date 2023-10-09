@@ -19,7 +19,6 @@ namespace Mercenary.StateMachine
             if (!CanAttack()) return;
 
             playerCurrentAttackAmount += 1;
-            Debug.Log($"{CanAttack()} : {playerCurrentAttackAmount}");
             characterAnimator.SetTrigger("isAttacking");
             Debug.Log("Is attacking;");
             base.OnBegin();

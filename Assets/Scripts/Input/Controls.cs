@@ -53,6 +53,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Consume"",
+                    ""type"": ""Button"",
+                    ""id"": ""e722e6b1-797d-4768-9b20-79363f480296"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -110,6 +119,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f9ec06b5-4df1-4c6b-9c6a-c49ee75b0379"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Consume"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -121,6 +141,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_PlayerActions_Move = m_PlayerActions.FindAction("Move", throwIfNotFound: true);
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
         m_PlayerActions_Attack = m_PlayerActions.FindAction("Attack", throwIfNotFound: true);
+        m_PlayerActions_Consume = m_PlayerActions.FindAction("Consume", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,6 +206,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Move;
     private readonly InputAction m_PlayerActions_Jump;
     private readonly InputAction m_PlayerActions_Attack;
+    private readonly InputAction m_PlayerActions_Consume;
     public struct PlayerActionsActions
     {
         private @Controls m_Wrapper;
@@ -192,6 +214,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_PlayerActions_Move;
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
         public InputAction @Attack => m_Wrapper.m_PlayerActions_Attack;
+        public InputAction @Consume => m_Wrapper.m_PlayerActions_Consume;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -210,6 +233,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @Consume.started += instance.OnConsume;
+            @Consume.performed += instance.OnConsume;
+            @Consume.canceled += instance.OnConsume;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -223,6 +249,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @Consume.started -= instance.OnConsume;
+            @Consume.performed -= instance.OnConsume;
+            @Consume.canceled -= instance.OnConsume;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -245,5 +274,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnConsume(InputAction.CallbackContext context);
     }
 }

@@ -7,7 +7,6 @@ namespace Mercenary.HealthSystem
 {
     public class PlayerHealthComponent : BaseHealthComponent, IHealthSystem
     {
-
         public bool IsDead()
         {
             return characterHealth.IsDead();
