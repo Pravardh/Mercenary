@@ -21,6 +21,7 @@ namespace Mercenary.StateMachine
         public override void OnTick()
         {
             base.OnTick();
+            playerRigidbody.velocity = new Vector2(playerMovementValue * 6.0f, playerRigidbody.velocity.y);
 
             if (IsGrounded())
             {

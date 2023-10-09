@@ -15,6 +15,7 @@ namespace Mercenary.StateMachine
         public override void OnBegin()
         {
             characterAnimator.SetTrigger("isJumping");
+
             TryJump();
             base.OnBegin();
         }
@@ -22,13 +23,14 @@ namespace Mercenary.StateMachine
         public override void OnTick()
         {
             base.OnTick();
+            playerRigidbody.velocity = new Vector2(playerMovementValue * 6.0f, playerRigidbody.velocity.y);
 
             if (playerRigidbody.velocity.y < 0)
             {
                 SwitchState(new PlayerFallState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler));
             }
-
         }
+
         public override void OnEnd()
         {
             characterAnimator.ResetTrigger("isJumping");

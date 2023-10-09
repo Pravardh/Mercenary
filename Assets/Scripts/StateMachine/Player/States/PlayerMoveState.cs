@@ -26,6 +26,8 @@ namespace Mercenary.StateMachine
         {
             base.OnTick();
 
+
+
             MovePlayer(playerMovementValue);
 
             if(playerIsJumping && IsGrounded())
@@ -59,16 +61,10 @@ namespace Mercenary.StateMachine
                 return;
             }
 
-
-            playerRigidbody.velocity = new Vector2(movementValue * 6.0f, playerRigidbody.velocity.y); // Replace with character speed
+            playerRigidbody.velocity = new Vector2(movementValue * 6.5f, playerRigidbody.velocity.y); // Replace with character speed
 
             SetCharacterOrientation(movementValue == -1 ? Utilities.CharacterOrientation.LEFT : Utilities.CharacterOrientation.RIGHT);
         }
-
-
-
-
-
     }
 
 }

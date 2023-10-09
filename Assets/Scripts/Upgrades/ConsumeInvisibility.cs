@@ -13,6 +13,9 @@ namespace Mercenary.Abilities
         private PlayerInputReader playerInputReader;
 
         [SerializeField]
+        private SpriteRenderer playerSpriteRenderer;
+
+        [SerializeField]
         private string abilityToConsume = "Invisibility";
 
         private void Awake()
@@ -73,15 +76,20 @@ namespace Mercenary.Abilities
         IEnumerator EnableInvisibility()
         {
             PlayerPrefs.SetString(abilityToConsume, "True");
+            Color color = playerSpriteRenderer.color;
+            color.a = .5f;
+            LeanTween.color(playerSpriteRenderer.gameObject, color, 2.0f);
+
+            playerSpriteRenderer.color = color;
 
             yield return new WaitForSeconds(15);
-            
+
+            color.a = 1f;
+            LeanTween.color(playerSpriteRenderer.gameObject, color, 2.0f);
+
             PlayerPrefs.DeleteKey(abilityToConsume);
             PlayerPrefs.Save();
         }
-
-        //GameManager.OnLevelEnded += FUNCTION TO REMOVE PLAYER PREFS INVISIBILITY
-        //THIS IS SO THAT ONCE THE LEVEL IS OVER THE PLAYER PREFS DOES NOT PERSIST TO THE NEXT LEVEL
     }
 
 }

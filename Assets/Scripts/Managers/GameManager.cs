@@ -44,7 +44,6 @@ namespace Mercenary.Managers
 
             enemyHealthSystemList.Add(healthSystem);
             totalEnemyCount++;
-            Debug.Log(totalEnemyCount);
         }
 
         public void RemoveEnemyCount(IHealthSystem healthSystem)
