@@ -37,12 +37,14 @@ namespace Mercenary.UI
                         if (item.DisplayName == "Invisibility")
                         {
                             SetStatusText("You have already bought this upgrade!");
-                            Debug.Log("Already bought");
+                            buyInvisibilityWithCoinsButton.gameObject.SetActive(false);
+                            buyInvisibilityWithGoldButton.gameObject.SetActive(false);
                             return;
                         }
                         else
                         {
-                            Debug.Log("Nothing is there");
+                            buyInvisibilityWithCoinsButton.gameObject.SetActive(true);
+                            buyInvisibilityWithGoldButton.gameObject.SetActive(true);
                         }
                     }
                 },
@@ -89,6 +91,7 @@ namespace Mercenary.UI
                     if (savedDateTime < DateTime.Now)
                     {
                         PurchaseWithCoins();
+
                         PlayerPrefs.DeleteKey("EndTime");
                     }
                 }
@@ -97,6 +100,8 @@ namespace Mercenary.UI
 
         private void SetStatusText(string newText)
         {
+            shopStateText.transform.position = new Vector3(-1036, 0);
+            LeanTween.moveX(shopStateText.gameObject, 0, 1);
             shopStateText.text = newText;
         }
 
@@ -116,7 +121,7 @@ namespace Mercenary.UI
             };
             PlayFabClientAPI.PurchaseItem(request, resultCallback =>
             {
-                Debug.Log("Purchased item.." + request.Price);
+                SetStatusText("Purchased Item!");
 
             }, error =>
             {
@@ -160,6 +165,7 @@ namespace Mercenary.UI
                 string dateTimeString = timeAtCompletion.ToString("yyyy-MM-dd HH:mm:ss");
 
                 SetStatusText("Purchase Successful! Training mercenary. You can speed up using gold!");
+                buyInvisibilityWithCoinsButton.gameObject.SetActive(false);
 
                 PlayerPrefs.SetString("EndTime", dateTimeString);
                 PlayerPrefs.Save();
@@ -189,34 +195,21 @@ namespace Mercenary.UI
                     string completedTimeString = completionTime.ToString("yyyy-MM-dd HH:mm:ss");
 
                     PlayerPrefs.SetString("EndTime", completedTimeString);
-                    Debug.Log("Sped up process with hard currency! ");
+                    SetStatusText("Invisibility now available immediately!");
                 }
             }, 
 
             error => 
             {
-                Debug.Log("Could not subtract " + error.Error);
+                if (error.Error == PlayFabErrorCode.InsufficientFunds)
+                {
+                    SetStatusText("Insufficient gold!");
+
+                }
             });
 
   
 
-        }
-
-        private void GetUserInventory()
-        {
-            var request = new GetUserInventoryRequest();
-            PlayFabClientAPI.GetUserInventory(request, OnGetInventorySuccess, OnGetInventoryFailure);
-        }
-
-        private void OnGetInventorySuccess(GetUserInventoryResult result)
-        {
-
-
-        }
-
-        private void OnGetInventoryFailure(PlayFabError error)
-        {
-            Debug.LogError("Failed to get user inventory: " + error.ErrorDetails);
         }
     }
 }
