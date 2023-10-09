@@ -12,6 +12,9 @@ namespace Mercenary.Abilities
     {
         private PlayerInputReader playerInputReader;
 
+        [SerializeField]
+        private string abilityToConsume = "Invisibility";
+
         private void Awake()
         {
             playerInputReader = GetComponent<PlayerInputReader>();
@@ -31,7 +34,7 @@ namespace Mercenary.Abilities
         {
             foreach (ItemInstance item in result.Inventory)
             {
-                if (item.DisplayName == "Invisibility")
+                if (item.DisplayName == abilityToConsume)
                 {
                     Consume(item.ItemInstanceId);
                     break;
@@ -41,7 +44,8 @@ namespace Mercenary.Abilities
 
         private void OnPlayerConsumed()
         {
-            TryConsumeInvisibility();
+            if(!PlayerPrefs.HasKey(abilityToConsume))
+                TryConsumeInvisibility();
         }
 
         private void Consume(string itemID)
@@ -68,13 +72,12 @@ namespace Mercenary.Abilities
 
         IEnumerator EnableInvisibility()
         {
-            PlayerPrefs.SetString("Invisibility", "True");
+            PlayerPrefs.SetString(abilityToConsume, "True");
 
             yield return new WaitForSeconds(15);
             
-            PlayerPrefs.DeleteKey("Invisibility");
+            PlayerPrefs.DeleteKey(abilityToConsume);
             PlayerPrefs.Save();
-
         }
 
         //GameManager.OnLevelEnded += FUNCTION TO REMOVE PLAYER PREFS INVISIBILITY

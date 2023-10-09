@@ -1,88 +1,69 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
-using UnityEditor.PackageManager;
-using UnityEditor.PackageManager.Requests;
+using Mercenary.Utilities;
+using System.Collections;
+using System.Security.Cryptography;
 
-public class UIManager : MonoBehaviour
+namespace Mercenary.Managers
 {
-    // Start is called before the first frame update
-    void Start()
+    public class UIManager : MonoBehaviour, IGameState
     {
-        SignInWithEmail("test@test.com", "12345678");
-    }
+        [SerializeField]
+        private GameObject playerWinScreen;
 
-    public void SignUpWithEmail(string email, string password)
-    {
-        var request = new RegisterPlayFabUserRequest
+        [SerializeField]
+        private GameObject playerLoseScreen;
+
+        [SerializeField]
+        private GameObject playerControls;
+
+        [SerializeField]
+        private GameManager gameManager;
+
+    
+
+        private void Awake()
         {
-            Email = email,
-            Password = password,
-            RequireBothUsernameAndEmail = false // Set to true if you want both username and email
-        };
+            gameManager.OnGameStateChanged += OnGameStateChanged;
+            //playerWinScreen.SetActive(false);
+            //playerLoseScreen.SetActive(false);
+        }
 
-        PlayFabClientAPI.RegisterPlayFabUser(request, OnSignUpSuccess, OnSignUpFailure);
-    }
-
-    private void OnSignUpSuccess(RegisterPlayFabUserResult result)
-    {
-        Debug.Log("Player signed up successfully!");
-    }
-
-    private void OnSignUpFailure(PlayFabError error)
-    {
-        Debug.LogError("Sign-up failed: " + error.GenerateErrorReport());
-        // Handle sign-up failure (e.g., show an error message to the player).
-    }
-    public void SignInWithEmail(string email, string password)
-    {
-        var request = new LoginWithEmailAddressRequest
+        public void OnGameStateChanged(GameState newState)
         {
-            Email = email,
-            Password = password
-        };
+            switch (newState)
+            {
+                case GameState.Won:
+                    DisplayWinScreen();
+                    break;
 
-        PlayFabClientAPI.LoginWithEmailAddress(request, OnSignInSuccess, OnSignInFailure);
-    }
+                case GameState.Lost:
+                    DisplayLoseScreen();
+                    break;
+            }
+        }
 
-    private void OnSignInSuccess(LoginResult result)
-    {
-        Debug.Log("Player signed in successfully!");
-        // Handle post-sign-in logic (e.g., load player data)
-    }
-
-    private void OnSignInFailure(PlayFabError error)
-    {
-        Debug.LogError("Sign-in failed: " + error.GenerateErrorReport());
-        SignUpWithEmail("test@test.com", "12345678");
-        // Handle sign-in failure (e.g., show error message to the player)
-    }
-
-    public void TryReduceCurrency()
-    {
-        PurchaseItem();
-    }
-
-    public void PurchaseItem()
-    {
-        var request = new PurchaseItemRequest
+        private void OnDestroy()
         {
-            ItemId = "Invisibility",
-            Price = 2,
-            VirtualCurrency = "CC"
-        };
-        PlayFabClientAPI.PurchaseItem(request, resultCallback =>
-        {
-            Debug.Log("Purchased item.." + request.Price);
+            gameManager.OnGameStateChanged -= OnGameStateChanged;
+        }
 
-        }, error =>
+        public void DisplayWinScreen()
         {
-            Debug.Log("Could not purchase item" + error.ErrorMessage);
-        });
+            playerWinScreen.SetActive(true);
 
-        var r = request.ToJson();
-        print(r);
+            Time.timeScale = 0.8f;
+            LeanTween.moveLocalY(playerWinScreen, 0.0f, 2.0f);
+            LeanTween.moveLocalY(playerControls, -100.0f, 2.0f);
+        }
+
+        public void DisplayLoseScreen()
+        {
+            Time.timeScale = 0.8f;
+            playerLoseScreen.SetActive(true);
+            LeanTween.scale(playerLoseScreen, Vector2.one, 5.0f);
+
+        }
     }
 }

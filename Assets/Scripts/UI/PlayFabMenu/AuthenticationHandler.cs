@@ -46,8 +46,8 @@ namespace Mercenary.Authentication
             }
 
             userAuthenticator = new Authenticator(GetEmailAddress(), GetPassword(), OnSignInSuccess, OnSignInFailed, OnSignUpSuccess, OnSignUpFailed);
+         
             userAuthenticator.SignIn();
-            Debug.Log("Trying to sign in");
         }
 
 

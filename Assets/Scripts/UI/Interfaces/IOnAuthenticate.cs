@@ -10,6 +10,9 @@ namespace Mercenary.Authentication
     {
         public void OnSignInSuccess(LoginResult loginResult);
         public void OnSignInFailed(PlayFabError loginError);
+        public void OnSignUpSuccess(RegisterPlayFabUserResult userResult);
+        public void OnSignUpFailed(PlayFabError signupError);
+
     }
 
 }

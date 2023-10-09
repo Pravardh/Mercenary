@@ -1,3 +1,4 @@
+using Mercenary.Managers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace Mercenary.HealthSystem
         {
             TakeDamage(100);
 
+            gameManager.OnPlayerDead();
         }
     }
 }

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 using Mercenary.User;
 using System;
 using PlayFab.Json;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
+using TMPro;
+using System.Data.SqlTypes;
 
 namespace Mercenary.UI
 {
@@ -18,6 +18,10 @@ namespace Mercenary.UI
         private Button buyInvisibilityWithGoldButton;
 
         [SerializeField]
+        private TextMeshProUGUI shopStateText;
+
+
+        [SerializeField]
         private MainMenuHandler mainMenuHandler;
 
         private long currentTime;
@@ -25,7 +29,29 @@ namespace Mercenary.UI
 
         private void Awake()
         {
-            if(buyInvisibilityWithCoinsButton != null)
+            PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), 
+                result =>
+                {
+                    foreach (ItemInstance item in result.Inventory)
+                    {
+                        if (item.DisplayName == "Invisibility")
+                        {
+                            SetStatusText("You have already bought this upgrade!");
+                            Debug.Log("Already bought");
+                            return;
+                        }
+                        else
+                        {
+                            Debug.Log("Nothing is there");
+                        }
+                    }
+                },
+                error =>
+                {
+                    Debug.LogError("Could not get player inventory");
+                });
+
+            if (buyInvisibilityWithCoinsButton != null)
             {
                 buyInvisibilityWithCoinsButton.onClick.AddListener(OnBuyInvisibilityWithCoinsClicked);
             }
@@ -55,7 +81,6 @@ namespace Mercenary.UI
             {
                 buyInvisibilityWithGoldButton.gameObject.SetActive(true);
 
-
                 string endTimeString = PlayerPrefs.GetString("EndTime");
                 if (DateTime.TryParseExact(endTimeString, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out DateTime savedDateTime))
                 {
@@ -66,15 +91,18 @@ namespace Mercenary.UI
                         PurchaseWithCoins();
                         PlayerPrefs.DeleteKey("EndTime");
                     }
-                }    
+                }
             }
+        }
+
+        private void SetStatusText(string newText)
+        {
+            shopStateText.text = newText;
         }
 
         private void OnBuyInvisibilityWithCoinsClicked()
         {
             UpgradeWithSoftCurrency();
-
-   
         }
 
         private void PurchaseWithCoins()
@@ -130,6 +158,8 @@ namespace Mercenary.UI
                 DateTime timeAtCompletion = DateTime.Now.AddSeconds(timeToComplete);
 
                 string dateTimeString = timeAtCompletion.ToString("yyyy-MM-dd HH:mm:ss");
+
+                SetStatusText("Purchase Successful! Training mercenary. You can speed up using gold!");
 
                 PlayerPrefs.SetString("EndTime", dateTimeString);
                 PlayerPrefs.Save();

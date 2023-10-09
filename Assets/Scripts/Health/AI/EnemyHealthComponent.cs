@@ -1,3 +1,4 @@
+using Mercenary.Managers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,11 @@ namespace Mercenary.HealthSystem
     public class EnemyHealthComponent : BaseHealthComponent, IHealthSystem
     {
 
+        private void Start()
+        {
+            gameManager.AddEnemyCount(this);
+        }
+
         public bool IsDead()
         {
             return characterHealth.IsDead();
@@ -16,7 +22,6 @@ namespace Mercenary.HealthSystem
         public void TakeDamage(float damageMagnitude)
         {
             characterHealth.TakeDamage(damageMagnitude);
-            Debug.Log("Took damage of " + damageMagnitude);
         }
 
         public void TakeHealth(float healthMagnitude)
@@ -28,6 +33,7 @@ namespace Mercenary.HealthSystem
         {
             TakeDamage(100);
 
+            gameManager.RemoveEnemyCount(this);
         }
     }
 }

@@ -11,10 +11,7 @@ namespace Mercenary.UI
 {
     public class MainMenuHandler : MonoBehaviour
     {
-        private void Awake()
-        {
-            PlayerPrefs.DeleteKey("Invisibility");
-        }
+
         public void PlayGame()
         {
             SceneManager.LoadScene(2);

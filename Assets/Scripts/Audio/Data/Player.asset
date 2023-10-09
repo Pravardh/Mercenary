@@ -17,4 +17,4 @@ MonoBehaviour:
     - audioClipName: KnifeStab
       audioClips:
       - {fileID: 8300000, guid: 8fe0d152a401bc845a2c8aa1da2ab846, type: 3}
-      - {fileID: 8300000, guid: 24a202e4234d7cd4297294a9831bb4a4, type: 3}
+      - {fileID: 8300000, guid: 6840c444ecee8714b9427afc482b1f90, type: 3}
