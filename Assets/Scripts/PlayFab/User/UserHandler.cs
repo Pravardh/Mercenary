@@ -12,7 +12,6 @@ namespace Mercenary.User
         public const string GOLD_CURRENCY_VALUE = "GG";
         public const string COIN_CURRENCY_VALUE = "CC";
 
-
         private static UserHandler instance;
         public static UserHandler Instance;
 
@@ -27,7 +26,6 @@ namespace Mercenary.User
             {
                 Destroy(gameObject);
             }
-
         }
 
 

@@ -13,6 +13,9 @@ namespace Mercenary.UI
     public class ShopHandler : MonoBehaviour
     {
         [SerializeField]
+        private UserDetails playerDetailsHandler;
+
+        [SerializeField]
         private Button buyInvisibilityWithCoinsButton;
         [SerializeField]
         private Button buyInvisibilityWithGoldButton;
@@ -66,7 +69,7 @@ namespace Mercenary.UI
         private void OnDestroy()
         {
             buyInvisibilityWithCoinsButton.onClick.RemoveListener(OnBuyInvisibilityWithCoinsClicked);
-            buyInvisibilityWithCoinsButton.onClick.RemoveListener(OnBuyInvisibilityWithGoldClicked);
+            buyInvisibilityWithGoldButton.onClick.RemoveListener(OnBuyInvisibilityWithGoldClicked);
         }
 
         private void Start()
@@ -121,12 +124,15 @@ namespace Mercenary.UI
             };
             PlayFabClientAPI.PurchaseItem(request, resultCallback =>
             {
+                playerDetailsHandler.RefreshCurrencyValues();
+                buyInvisibilityWithGoldButton.gameObject.SetActive(false);
+                buyInvisibilityWithCoinsButton.gameObject.SetActive(false);
                 SetStatusText("Purchased Item!");
+
 
             }, error =>
             {
-                Debug.Log("Could not purchase item" + error.ErrorMessage);
-
+                SetStatusText("Could not purchase item because: " + error.ErrorMessage);
             });
 
         }
@@ -195,7 +201,10 @@ namespace Mercenary.UI
                     string completedTimeString = completionTime.ToString("yyyy-MM-dd HH:mm:ss");
 
                     PlayerPrefs.SetString("EndTime", completedTimeString);
-                    SetStatusText("Invisibility now available immediately!");
+
+                    buyInvisibilityWithGoldButton.gameObject.SetActive(false);
+                    playerDetailsHandler.RefreshCurrencyValues();
+
                 }
             }, 
 

@@ -19,6 +19,11 @@ namespace Mercenary.UI
             LeanTween.scale(parentUIElement, Vector3.one, 1.0f);
         }
 
+        public void QuitApplication()
+        {
+            Application.Quit();
+        }
+
         public void PlayGame()
         {
             SceneManager.LoadScene(2);

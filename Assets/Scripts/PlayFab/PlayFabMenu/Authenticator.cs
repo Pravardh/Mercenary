@@ -9,6 +9,7 @@ namespace Mercenary.Authentication
     {
         private string emailID;
         private string password;
+        private string username;
 
         private event Action<LoginResult> OnSignInSucceedEvent;
         private event Action<PlayFabError> OnSignInFailedEvent;
@@ -19,6 +20,7 @@ namespace Mercenary.Authentication
         {
             this.emailID = emailID;
             this.password = password;
+            this.username = "Player" + UnityEngine.Random.Range(0, 1000);
             this.OnSignInSucceedEvent = onSignInSucessMethod;
             this.OnSignInFailedEvent = onSignInFailureMethod;
             this.OnSignUpSuccessEvent = onSignUpSuccessMethod;
@@ -42,7 +44,8 @@ namespace Mercenary.Authentication
             {
                 Email = emailID,
                 Password = password,
-                RequireBothUsernameAndEmail = false
+                Username = username,
+                DisplayName = username
             };
 
             PlayFabClientAPI.RegisterPlayFabUser(request, OnSignUpSuccess, OnSignUpFailed);
@@ -52,6 +55,7 @@ namespace Mercenary.Authentication
         private void OnSignUpSuccess(RegisterPlayFabUserResult userResult)
         {
             OnSignUpSuccessEvent?.Invoke(userResult);
+            Debug.Log("Your username is: " + userResult.Username);
         }
 
         private void OnSignUpFailed(PlayFabError error)

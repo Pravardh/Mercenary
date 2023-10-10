@@ -26,7 +26,7 @@ namespace Mercenary.Authentication
             {
                 userSignInButton.onClick.AddListener(OnSignInClicked);
             }
-
+            userPassword.inputType = TMP_InputField.InputType.Password;
 
         }
 
@@ -46,10 +46,8 @@ namespace Mercenary.Authentication
             }
 
             userAuthenticator = new Authenticator(GetEmailAddress(), GetPassword(), OnSignInSuccess, OnSignInFailed, OnSignUpSuccess, OnSignUpFailed);
-         
             userAuthenticator.SignIn();
         }
-
 
 
         private string GetEmailAddress()
@@ -95,7 +93,6 @@ namespace Mercenary.Authentication
 
         public void OnSignInFailed(PlayFabError loginError)
         {
-            Debug.Log(loginError.Error);
             if (loginError.Error == PlayFabErrorCode.InvalidParams)
             {
                 Debug.Log("Please recheck your username or password");
