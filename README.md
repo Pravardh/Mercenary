@@ -1,7 +1,7 @@
-#Key Features:-
+# Key Features :-
 
 ● Created custom perceptive AI and Player state machines, with various actions segregatedinto states (Finite State Machine)
-A fully custom and flexible audio management system
+● A fully custom and flexible audio management system
 ● User authentication using PlayFab
 ● Purchases with Soft and Hard currencies, with delayed delivery timers
 ● Implemented a PlayFab Leaderboard and Score system
