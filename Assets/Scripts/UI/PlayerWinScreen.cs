@@ -1,3 +1,5 @@
+using PlayFab;
+using PlayFab.ClientModels;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,15 +16,38 @@ namespace Mercenary.UI
 
         void Start()
         {
+
             backButton.onClick.AddListener(LoadMainMenu);
         }
 
         private void LoadMainMenu()
         {
+            GrantMoneyToPlayer();
+
             SceneManager.LoadScene(1);
         }
 
-        
+        private void GrantMoneyToPlayer()
+        {
+            ExecuteCloudScriptRequest request = new ExecuteCloudScriptRequest
+            {
+                FunctionName = "OnPlayerWin",
+
+            };
+
+
+            PlayFabClientAPI.ExecuteCloudScript(request,
+            result =>
+            {
+                Debug.Log("Granted money to player");
+
+            },
+            error =>
+            {
+            });
+        }
+
+
     }
 
 }

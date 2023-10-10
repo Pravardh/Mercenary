@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace Mercenary.Input
 {
@@ -55,6 +56,14 @@ namespace Mercenary.Input
 
             if (context.performed)
                 PlayerConsumeEvent?.Invoke();
+        }
+
+        public void OnReset(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
 
         //Helper functions to enable and disable input.

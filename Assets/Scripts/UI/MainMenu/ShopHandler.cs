@@ -35,6 +35,14 @@ namespace Mercenary.UI
             //Checks to see if player has already bought Invisibility. If it has been revoked
             //On the server or has been consumed, buttons are disabled.
 
+            if (playerDetailsHandler.CurrentCoins < 50)
+            {
+                buyInvisibilityWithCoinsButton.gameObject.SetActive(false);
+                buyInvisibilityWithGoldButton.gameObject.SetActive(false);
+                SetStatusText("Insufficient coins! Play to earn");
+            }
+
+
             PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), 
                 result =>
                 {
@@ -102,7 +110,6 @@ namespace Mercenary.UI
                 string endTimeString = PlayerPrefs.GetString("EndTime");
                 if (DateTime.TryParseExact(endTimeString, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out DateTime savedDateTime))
                 {
-                    Debug.Log("DateTime retrieved from PlayerPrefs: " + savedDateTime);
 
                     if (savedDateTime < DateTime.Now)
                     {
@@ -207,6 +214,12 @@ namespace Mercenary.UI
         {
             //If gold button is clicked, try subtracting virtual currency. If player has enough funds, it will subtract the 
             //currency. If not, it will display a message that says you don't have enough funds.
+
+            if (playerDetailsHandler.CurrentGold < 2)
+            {
+                SetStatusText("Insufficient gold! Please wait for upgrade to finish");
+                return;
+            }
 
             ExecuteCloudScriptRequest request = new ExecuteCloudScriptRequest
             {

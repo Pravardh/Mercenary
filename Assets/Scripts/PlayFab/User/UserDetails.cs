@@ -20,6 +20,9 @@ namespace Mercenary.UI
         [SerializeField]
         private TextMeshProUGUI coinsTextField;
 
+        public float CurrentCoins { get; private set; }
+        public float CurrentGold { get; private set; }
+
 
         private void Start()
         {
@@ -41,8 +44,10 @@ namespace Mercenary.UI
                 {
                     if (result.VirtualCurrency != null && result.VirtualCurrency.ContainsKey(UserHandler.COIN_CURRENCY_VALUE) && result.VirtualCurrency.ContainsKey(UserHandler.GOLD_CURRENCY_VALUE)) // Replace "VC" with your virtual currency code
                     {
-                        coinsTextField.text = "Coins: " + result.VirtualCurrency[UserHandler.COIN_CURRENCY_VALUE];
-                        goldTextField.text = "Gold: " + result.VirtualCurrency[UserHandler.GOLD_CURRENCY_VALUE];
+                        CurrentCoins = result.VirtualCurrency[UserHandler.COIN_CURRENCY_VALUE];
+                        CurrentGold = result.VirtualCurrency[UserHandler.GOLD_CURRENCY_VALUE];
+                        coinsTextField.text = "Coins: " + CurrentCoins;
+                        goldTextField.text = "Gold: " + CurrentGold;
                         
                     }
                 },
