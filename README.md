@@ -1,6 +1,6 @@
-# Key Features :-
+# Key Features:-
 
-● Created custom perceptive AI and Player state machines, with various actions segregatedinto states (Finite State Machine)
+● Created custom perceptive AI and Player state machines, with various actions segregated into states (Finite State Machine)
 
 ● A fully custom and flexible audio management system
 
