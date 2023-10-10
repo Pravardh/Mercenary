@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 970855187303643427}
-  - component: {fileID: 157540714653502934}
   - component: {fileID: 8537125674346520103}
   - component: {fileID: 5652408845896630141}
   - component: {fileID: 2232549732412156623}
@@ -17,6 +16,7 @@ GameObject:
   - component: {fileID: 4179704588159300685}
   - component: {fileID: 1699762555392019455}
   - component: {fileID: 740962804913678629}
+  - component: {fileID: 2926772662915155303}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -39,53 +39,8 @@ Transform:
   - {fileID: 49335656082599615}
   - {fileID: 1513312687665885019}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 41
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &157540714653502934
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721214992888709769}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.11735511, y: 0.03}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.27, y: 2.1512828}
-  m_EdgeRadius: 0
 --- !u!50 &8537125674346520103
 Rigidbody2D:
   serializedVersion: 4
@@ -98,7 +53,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 300
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 4
@@ -111,7 +66,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!114 &5652408845896630141
 MonoBehaviour:
@@ -141,6 +96,7 @@ MonoBehaviour:
   characterEyes: {fileID: 2699191536784758711}
   characterAnimator: {fileID: 527216240301343980}
   playerGroundCheck: {fileID: 1513312687665885019}
+  gameManager: {fileID: 0}
 --- !u!114 &8422587925360548405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,7 +230,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33034388ff8a23c41ad3ce0698924133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSpriteRenderer: {fileID: 4367539736798640854}
   abilityToConsume: Invisibility
+--- !u!70 &2926772662915155303
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721214992888709769}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.16729927, y: -0.050578892}
+  m_Size: {x: 0.83459854, y: 1.9259812}
+  m_Direction: 0
 --- !u!1 &4231129670091650785
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +403,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_Sprite: {fileID: -1600849613, guid: f07877946a14b814985b9d591b1307d9, type: 3}
   m_Color: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
   m_FlipX: 0

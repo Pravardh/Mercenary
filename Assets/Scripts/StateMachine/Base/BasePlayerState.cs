@@ -55,7 +55,6 @@ namespace Mercenary.StateMachine
             playerIsJumping = playerInputReader.PlayerJumpValue;
             playerIsAttacking = playerInputReader.PlayerAttackValue;
 
-
         }
 
         public override void OnEnd()

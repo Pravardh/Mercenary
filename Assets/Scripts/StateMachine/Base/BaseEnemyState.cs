@@ -69,7 +69,12 @@ namespace Mercenary.StateMachine
 
             //Check to see if I contain 
 
-            if (PlayerPrefs.HasKey("Invisibility")) return null;
+            if (PlayerPrefs.HasKey("Invisibility"))
+            {
+                Debug.Log("invisibility is still active");
+                return null;
+            }
+
 
             Vector2 _startPosition = characterEyes.position;
 
@@ -84,6 +89,7 @@ namespace Mercenary.StateMachine
             {
                 if (hitInfo.transform.gameObject.TryGetComponent(out PlayerHealthComponent _healthComponent))
                 {
+                    Debug.Log(hitInfo.transform.gameObject.name);
                     return hitInfo.transform.gameObject;
                 }
             }

@@ -86,7 +86,6 @@ namespace Mercenary.Abilities
 
             color.a = 1f;
             LeanTween.color(playerSpriteRenderer.gameObject, color, 2.0f);
-
             PlayerPrefs.DeleteKey(abilityToConsume);
             PlayerPrefs.Save();
         }

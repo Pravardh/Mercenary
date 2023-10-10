@@ -16,8 +16,8 @@ namespace Mercenary.StateMachine
         protected EnemyDetector characterEnemyDetector;
 
         //Use data  containers for this
-        protected float characterVisionRange = 4f;
-        protected float characterAttackRange = 1.2f;
+        protected float characterVisionRange = 8f;
+        protected float characterAttackRange = 1.5f;
 
         protected BaseState nextState;
 

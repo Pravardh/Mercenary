@@ -52,5 +52,16 @@ namespace Mercenary.Input
             if (context.performed)
                 PlayerConsumeEvent?.Invoke();
         }
+
+        public void EnableInput()
+        {
+            playerControls.Enable();
+        }
+
+        public void DisableInput()
+        {
+            playerControls.Disable();
+
+        }
     }
 }
