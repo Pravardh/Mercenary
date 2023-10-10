@@ -7,6 +7,9 @@ namespace Mercenary.Authentication
 {
     public class Authenticator
     {
+        //This class provides a layer of abstraction. It takes in an email, password and success/failure events and subscribes them.
+        //These methods will be invoked accordingly whenever required.
+
         private string emailID;
         private string password;
         private string username;

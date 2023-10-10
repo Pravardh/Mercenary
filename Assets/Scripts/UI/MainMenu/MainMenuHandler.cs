@@ -1,11 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using PlayFab;
-using PlayFab.ClientModels;
 using UnityEngine.SceneManagement;
-using System;
-using PlayFab.Json;
 
 namespace Mercenary.UI
 {
@@ -13,6 +7,8 @@ namespace Mercenary.UI
     {
         [SerializeField]
         private GameObject parentUIElement;
+
+        //Main menu helper functions
 
         private void Start()
         {

@@ -6,7 +6,6 @@ using Mercenary.User;
 using System;
 using PlayFab.Json;
 using TMPro;
-using System.Data.SqlTypes;
 
 namespace Mercenary.UI
 {
@@ -32,6 +31,10 @@ namespace Mercenary.UI
 
         private void Awake()
         {
+
+            //Checks to see if player has already bought Invisibility. If it has been revoked
+            //On the server or has been consumed, buttons are disabled.
+
             PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), 
                 result =>
                 {
@@ -56,6 +59,8 @@ namespace Mercenary.UI
                     Debug.LogError("Could not get player inventory");
                 });
 
+
+            //If buttons are not null add the on click listeners.
             if (buyInvisibilityWithCoinsButton != null)
             {
                 buyInvisibilityWithCoinsButton.onClick.AddListener(OnBuyInvisibilityWithCoinsClicked);
@@ -68,12 +73,17 @@ namespace Mercenary.UI
 
         private void OnDestroy()
         {
+
+            //Clean up 
+
             buyInvisibilityWithCoinsButton.onClick.RemoveListener(OnBuyInvisibilityWithCoinsClicked);
             buyInvisibilityWithGoldButton.onClick.RemoveListener(OnBuyInvisibilityWithGoldClicked);
         }
 
         private void Start()
         {
+            //If and upgrade is not ongoing, disable the speed up with gold button
+
             if (!PlayerPrefs.HasKey("EndTime"))
             {
                 buyInvisibilityWithGoldButton.gameObject.SetActive(false);
@@ -82,6 +92,9 @@ namespace Mercenary.UI
 
         private void Update()
         {
+            //Check to see if upgrade is going on, if it is, check and compare times.
+            //End time is set in server for cheat protection. 
+
             if (PlayerPrefs.HasKey("EndTime"))
             {
                 buyInvisibilityWithGoldButton.gameObject.SetActive(true);
@@ -103,6 +116,9 @@ namespace Mercenary.UI
 
         private void SetStatusText(string newText)
         {
+            //Helper function to set status text (this provides info about the process) 
+            //LeanTween simple animation 
+
             shopStateText.transform.position = new Vector3(-1036, 0);
             LeanTween.moveX(shopStateText.gameObject, 0, 1);
             shopStateText.text = newText;
@@ -110,6 +126,8 @@ namespace Mercenary.UI
 
         private void OnBuyInvisibilityWithCoinsClicked()
         {
+            //Upgrade with soft currency if coins button is clicked
+
             UpgradeWithSoftCurrency();
         }
 
@@ -118,7 +136,7 @@ namespace Mercenary.UI
             var request = new PurchaseItemRequest
             {
                 ItemId = "Invisibility",
-                Price = 1, // Price should be changed to something scalable. Preferably getting it from the catalog
+                Price = 50,
                 VirtualCurrency = UserHandler.COIN_CURRENCY_VALUE,
 
             };
@@ -139,6 +157,9 @@ namespace Mercenary.UI
 
         private void UpgradeWithSoftCurrency()
         {
+            //StartUpgradeWithSoftCurrency is a cloud script that decides what time the 
+            //update is supposed to be released. This provides a level of protection
+
             var request = new ExecuteCloudScriptRequest
             {
                 FunctionName = "StartUpgradeWithSoftCurrency"
@@ -170,7 +191,7 @@ namespace Mercenary.UI
 
                 string dateTimeString = timeAtCompletion.ToString("yyyy-MM-dd HH:mm:ss");
 
-                SetStatusText("Purchase Successful! Training mercenary. You can speed up using gold!");
+                SetStatusText("Purchase Requested! Invisibility will be available in 2 minutes. You can speed up using gold!");
                 buyInvisibilityWithCoinsButton.gameObject.SetActive(false);
 
                 PlayerPrefs.SetString("EndTime", dateTimeString);
@@ -184,11 +205,14 @@ namespace Mercenary.UI
 
         private void OnBuyInvisibilityWithGoldClicked()
         {
- 
+            //If gold button is clicked, try subtracting virtual currency. If player has enough funds, it will subtract the 
+            //currency. If not, it will display a message that says you don't have enough funds.
+
             ExecuteCloudScriptRequest request = new ExecuteCloudScriptRequest
             {
-                FunctionName = "SubtractVirtualCurrency", // Replace with your CloudScript function name
-                FunctionParameter = new { virtualCurrency = UserHandler.GOLD_CURRENCY_VALUE, amountToSubtract = 2} // Pass necessary parameters
+                FunctionName = "SubtractVirtualCurrency", 
+                FunctionParameter = new { virtualCurrency = UserHandler.GOLD_CURRENCY_VALUE, amountToSubtract = 2} 
+                
             };
 
 
@@ -205,6 +229,7 @@ namespace Mercenary.UI
                     buyInvisibilityWithGoldButton.gameObject.SetActive(false);
                     playerDetailsHandler.RefreshCurrencyValues();
 
+                    //If upgrade is on going then set EndTime to the current time so that the upgrade can be granted immedietely.
                 }
             }, 
 

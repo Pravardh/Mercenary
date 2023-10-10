@@ -1,9 +1,7 @@
 using Mercenary.Input;
 using PlayFab;
 using PlayFab.ClientModels;
-using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Mercenary.Abilities
@@ -24,8 +22,10 @@ namespace Mercenary.Abilities
 
             playerInputReader.PlayerConsumeEvent += OnPlayerConsumed;
         }
-        void TryConsumeInvisibility()
+        void TryGetInventory()
         {
+            //Try getting the user inventory
+
             PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), OnGetInventorySuccess, OnGetInventoryFailed);
         }
 
@@ -35,6 +35,8 @@ namespace Mercenary.Abilities
         }
         private void OnGetInventorySuccess(GetUserInventoryResult result)
         {
+            //Simple get inventory
+
             foreach (ItemInstance item in result.Inventory)
             {
                 if (item.DisplayName == abilityToConsume)
@@ -47,17 +49,21 @@ namespace Mercenary.Abilities
 
         private void OnPlayerConsumed()
         {
+            //If player does not have the ability already activated, try to get the inventory, which in turn
+            //consumes invisibility.
+
             if(!PlayerPrefs.HasKey(abilityToConsume))
-                TryConsumeInvisibility();
+                TryGetInventory();
         }
 
         private void Consume(string itemID)
         {
+            //Consume invisibility when requested. 
 
             ConsumeItemRequest request = new ConsumeItemRequest
             {
-                ItemInstanceId = itemID, // Set to null if you want to consume the first item with the specified item ID
-                ConsumeCount = 1 // Specify the quantity to consume (typically 1 for consumable items)
+                ItemInstanceId = itemID,
+                ConsumeCount = 1 
             };
 
             PlayFabClientAPI.ConsumeItem(request,
@@ -75,6 +81,9 @@ namespace Mercenary.Abilities
 
         IEnumerator EnableInvisibility()
         {
+            //Coroutine to enable and disable invisibility. It turns the sprite rendered translucent, waits for 15 seconds then
+            //turns invisibility back off.
+
             PlayerPrefs.SetString(abilityToConsume, "True");
             Color color = playerSpriteRenderer.color;
             color.a = .5f;

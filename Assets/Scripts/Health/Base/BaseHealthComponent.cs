@@ -9,6 +9,8 @@ namespace Mercenary.HealthSystem
     public class BaseHealthComponent : MonoBehaviour
     {
 
+        //Base health component for both player and enemy. It constructs the health object.
+
         [SerializeField]
         protected GameManager gameManager;
 

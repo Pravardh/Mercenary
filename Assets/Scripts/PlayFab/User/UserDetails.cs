@@ -2,14 +2,15 @@ using TMPro;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
-using PlayFab.Json;
 using Mercenary.User;
-using static UnityEditor.Progress;
 
 namespace Mercenary.UI
 {
     public class UserDetails : MonoBehaviour
     {
+        //This retrieves data from playfab, specifically how much currency the player has
+
+
         [SerializeField]
         private TextMeshProUGUI usernameTextField;
 
@@ -29,6 +30,9 @@ namespace Mercenary.UI
 
         public void RefreshCurrencyValues()
         {
+            //Instead of checking in tick, refresh currency whenever a purchase has been made, or when required. This way
+            //the function is not constantly running on tick.
+
             GetUserInventoryRequest request = new GetUserInventoryRequest();
 
             PlayFabClientAPI.GetUserInventory(
@@ -37,8 +41,8 @@ namespace Mercenary.UI
                 {
                     if (result.VirtualCurrency != null && result.VirtualCurrency.ContainsKey(UserHandler.COIN_CURRENCY_VALUE) && result.VirtualCurrency.ContainsKey(UserHandler.GOLD_CURRENCY_VALUE)) // Replace "VC" with your virtual currency code
                     {
-                        coinsTextField.text = "Gold: " + result.VirtualCurrency[UserHandler.COIN_CURRENCY_VALUE];
-                        goldTextField.text = "Silver: " + result.VirtualCurrency[UserHandler.GOLD_CURRENCY_VALUE];
+                        coinsTextField.text = "Coins: " + result.VirtualCurrency[UserHandler.COIN_CURRENCY_VALUE];
+                        goldTextField.text = "Gold: " + result.VirtualCurrency[UserHandler.GOLD_CURRENCY_VALUE];
                         
                     }
                 },
@@ -50,6 +54,8 @@ namespace Mercenary.UI
 
         public void RefreshPlayerUsername()
         {
+            // Similar to RefreshCurrency. Gets the player profile, then sets the username
+
             var request = new GetPlayerProfileRequest
             {
                 

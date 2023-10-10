@@ -10,8 +10,11 @@ using UnityEngine.SceneManagement;
 
 namespace Mercenary.Managers
 {
+
+    //This script calculates the totalTimeTaken for the particular level and sets the statistics on PlayFab using cloudscript.
     public class PlayerStatsManager : MonoBehaviour, IGameState
     {
+        
         [SerializeField]
         private GameManager gameManager;
 
@@ -34,6 +37,8 @@ namespace Mercenary.Managers
 
         public void OnGameStateChanged(GameState newState)
         {
+            //If player wins the game, set total time taken in cloud. Statistics name is automatically calculated for seamlesness in
+            //different levels.
             if (newState == GameState.Won)
             {
                 endTime = DateTime.Now;
@@ -47,6 +52,8 @@ namespace Mercenary.Managers
         }
         public void UpdatePlayerStatistics(int score)
         {
+            //Using cloud scripts because you cannot change statistics in clients. So calling it from the server
+
             string statisticsName = SceneManager.GetActiveScene().name + "Score";
             Debug.Log(statisticsName + $" {score}");
 
@@ -72,6 +79,7 @@ namespace Mercenary.Managers
             // Send the request to PlayFab
             PlayFabClientAPI.ExecuteCloudScript(playerStatisticsUpdateRequest, OnUpdatePlayerStatisticsSuccess, OnUpdatePlayerStatisticsError);
         }
+
 
         private void OnUpdatePlayerStatisticsSuccess(ExecuteCloudScriptResult result)
         {

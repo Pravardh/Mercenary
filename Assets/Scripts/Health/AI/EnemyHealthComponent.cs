@@ -11,9 +11,12 @@ namespace Mercenary.HealthSystem
 
         private void Start()
         {
+            //If this is an enemy, add yourself to the GameManager.
+
             gameManager.AddEnemyCount(this);
         }
 
+        //Implements IHealthSystem interface
         public bool IsDead()
         {
             return characterHealth.IsDead();

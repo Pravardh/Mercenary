@@ -15,7 +15,7 @@ namespace Mercenary.StateMachine
 
         public override void OnBegin()
         {
-            if (!CanAttack()) return;
+            //Play respective audio 
 
             playerAudioHandler.PlayAudio("KnifeStab", true);
 
@@ -32,6 +32,8 @@ namespace Mercenary.StateMachine
 
             if (enemyToAttack != null )
             {
+                //If I can attack an enemy, kill that enemy. 
+
                 enemyToAttack.Kill();
                 enemyToAttack = null;
             }
@@ -39,6 +41,8 @@ namespace Mercenary.StateMachine
             AnimatorStateInfo playerAnimInfo = characterAnimator.GetCurrentAnimatorStateInfo(0);
             if (playerAnimInfo.IsName("Attack") && playerAnimInfo.normalizedTime >= 1.0f)
             {
+                //If animation switched then change to idle state.
+
                SwitchState(new PlayerIdleState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler));
             }
         }

@@ -21,15 +21,18 @@ namespace Mercenary.StateMachine
         private AudioHandler playerAudioHandler;
 
         private IHealthSystem playerHealthSystem;
-        // Start is called before the first frame update
+
         void Start()
         {
             InitBase();
+            //Init player values
 
             playerRigidbody = GetComponent<Rigidbody2D>();
             playerInputReader = GetComponent<PlayerInputReader>();
             playerHealthSystem = GetComponent<IHealthSystem>();
             playerAudioHandler = GetComponent<AudioHandler>();
+
+            //Start with idle state
 
             playerState = new PlayerIdleState(gameObject, characterEyes, characterAnimator, playerHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler);
 
@@ -39,11 +42,16 @@ namespace Mercenary.StateMachine
         // Update is called once per frame
         void Update()
         {
+            //Execute whatever player state player is in.
+
             playerState = (BasePlayerState)playerState?.Execute();
         }
 
         public void OnGameStateChanged(GameState newState)
         {
+
+            //If you're not playing disable input, else enable input
+
             if (newState != GameState.Playing)
             {
                 playerInputReader.DisableInput();

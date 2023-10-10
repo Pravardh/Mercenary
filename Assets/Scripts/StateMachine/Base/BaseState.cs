@@ -36,6 +36,7 @@ namespace Mercenary.StateMachine
 
         protected CharacterOrientation CalculateCharacterOrientation()
         {
+            //Get character orientation value based on localRotation.
 
             if (characterReference.transform.localRotation.y == LEFT_ORIENTATION)
             {
@@ -51,6 +52,7 @@ namespace Mercenary.StateMachine
 
         protected CharacterOrientation CalculateFaceDirection(Transform _targetToFace)
         {
+            //Get orientation character should face for _target.
 
             if (_targetToFace.position.x < characterReference.transform.position.x)
             {
@@ -79,8 +81,9 @@ namespace Mercenary.StateMachine
 
         protected virtual GameObject TryDetectEnemyInRange()
         {
-            //Use data container for range
-            //Returns null if enemy is not in range
+            //Check to see if a health component is in range. if it is then return the game object. This is 
+            //useful for the AI
+
             Vector2 _startPosition = characterEyes.position;
 
             RaycastHit2D hitInfo = Physics2D.Raycast(
@@ -111,13 +114,13 @@ namespace Mercenary.StateMachine
 
             if (IsInAttackingRange(characterReference.transform, enemyRef.transform))
             {
-                //Debug.Log("Is in attacking range");
 
                 return enemyRef.GetComponent<IHealthSystem>();
             }
 
             return null;
         }
+
 
         public virtual void OnBegin()
         {
@@ -134,6 +137,7 @@ namespace Mercenary.StateMachine
 
         protected void SwitchState(BaseState newState)
         {
+            //Function to change state, and sets currentStage to END so that  execute() function can call OnEnd() to start the new state
             if (newState == null) return;
 
             nextState = newState;
@@ -142,6 +146,8 @@ namespace Mercenary.StateMachine
 
         public BaseState Execute()
         {
+            //Based on the currrentStage enum run the particular functions.
+
             if (currentStage == Stage.ENTER)
             {
                 OnBegin();
@@ -161,6 +167,8 @@ namespace Mercenary.StateMachine
 
         protected bool IsInAttackingRange(Transform _controllerPlayer, Transform _enemyPlayer)
         {
+            //Check to see if enemy is in characterAttackRange.
+
             return Mathf.Abs(Vector2.Distance(_controllerPlayer.position, _enemyPlayer.position)) < characterAttackRange;
         }
 

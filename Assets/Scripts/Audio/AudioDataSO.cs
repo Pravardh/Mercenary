@@ -8,6 +8,8 @@ namespace Mercenary.Audio
     [CreateAssetMenu(fileName = "New AudioData", menuName = "Mercernary/Data/Create AudioData")]
     public class AudioDataSO : ScriptableObject
     {
+        //Scriptable object that contains a list of audios. 
+
         [SerializeField]
         private AudioList audios;
 

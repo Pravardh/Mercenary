@@ -15,6 +15,7 @@ namespace Mercenary.Audio
 
         public Audio GetAudioClip(string clipName)
         {
+            //Get the respective audio from audioList based on the name
             foreach (Audio audio in audioList)
             {
                 if(audio.IsName(clipName))

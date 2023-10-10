@@ -21,6 +21,8 @@ namespace Mercenary.Leaderboard
 
         private void Start()
         {
+            //Set refresh button listeners and then get leaderboard
+
             refreshLeaderboardButton.onClick.AddListener(TryGetLeaderboard);
             TryGetLeaderboard();
         }
@@ -32,6 +34,8 @@ namespace Mercenary.Leaderboard
         }
         private void ClearLeaderboard()
         {
+            //Clearing children when refreshing or starting the leaderboard menu
+
             if (leaderboardLayoutGroup.childCount > 0)
             {
                 for (int i = 0; i < leaderboardLayoutGroup.childCount; i++)
@@ -51,6 +55,8 @@ namespace Mercenary.Leaderboard
                 StatisticName = leaderboardStatisticName
             };
 
+            //Get leaderboard request.
+
             PlayFabClientAPI.GetLeaderboard(
                 request,
                 result =>
@@ -59,6 +65,8 @@ namespace Mercenary.Leaderboard
 
                     foreach (PlayerLeaderboardEntry entry in result.Leaderboard)
                     {
+                        //Instantiate PlayerLeaderboardEntry and set the username and score.
+
                         GameObject go = Instantiate(leaderboardItemPrefab, leaderboardLayoutGroup);
                         LeaderboardObject leaderboardObject= go.GetComponent<LeaderboardObject>();
 

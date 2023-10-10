@@ -51,6 +51,7 @@ namespace Mercenary.StateMachine
         {
             base.OnTick();
 
+            //Read movement values in every state
             playerMovementValue = playerInputReader.PlayerMovementValue;
             playerIsJumping = playerInputReader.PlayerJumpValue;
             playerIsAttacking = playerInputReader.PlayerAttackValue;
@@ -63,13 +64,10 @@ namespace Mercenary.StateMachine
             base.OnEnd();
         }
 
-        public bool CanAttack()
-        {
-            return playerCurrentAttackAmount < playerTotalAttackAmount;
-        }
 
         protected bool IsGrounded()
         {
+            //Simple overlapcircle to check and see if player is on ground or not.
             bool isGrounded = Physics2D.OverlapCircle(playerGroundCheck.position, 0.2f, GROUND_LAYER_MASK);
 
             if (isGrounded)

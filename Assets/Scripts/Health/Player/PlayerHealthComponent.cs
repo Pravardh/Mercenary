@@ -8,6 +8,8 @@ namespace Mercenary.HealthSystem
 {
     public class PlayerHealthComponent : BaseHealthComponent, IHealthSystem
     {
+        //Implement IHealthSystem interface
+
         public bool IsDead()
         {
             return characterHealth.IsDead();
@@ -28,6 +30,8 @@ namespace Mercenary.HealthSystem
             TakeDamage(100);
 
             gameManager.OnPlayerDead();
+
+            //Tell the game manager that you are dead. 
         }
     }
 }

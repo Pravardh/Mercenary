@@ -19,6 +19,8 @@ namespace Mercenary.StateMachine
 
         protected void InitBase()
         {
+            //Init base values
+
             characterReference = gameObject;
 
             enemyDetector = GetComponent<EnemyDetector>();
