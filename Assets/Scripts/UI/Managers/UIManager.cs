@@ -26,8 +26,7 @@ namespace Mercenary.Managers
         private void Awake()
         {
             gameManager.OnGameStateChanged += OnGameStateChanged;
-            //playerWinScreen.SetActive(false);
-            //playerLoseScreen.SetActive(false);
+            LeanTween.init(10000);
         }
 
         public void OnGameStateChanged(GameState newState)
@@ -51,19 +50,14 @@ namespace Mercenary.Managers
 
         public void DisplayWinScreen()
         {
-            playerWinScreen.SetActive(true);
-
-            Time.timeScale = 0.8f;
             LeanTween.moveLocalY(playerWinScreen, 0.0f, 2.0f);
-            LeanTween.moveLocalY(playerControls, -100.0f, 2.0f);
+            playerControls.SetActive(false);
         }
 
         public void DisplayLoseScreen()
         {
-            Time.timeScale = 0.8f;
-            playerLoseScreen.SetActive(true);
-            LeanTween.scale(playerLoseScreen, Vector2.one, 5.0f);
-
+            LeanTween.scale(playerLoseScreen, Vector3.one, 2.0f);
+            playerControls.SetActive(false);
         }
     }
 }

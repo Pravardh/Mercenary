@@ -39,9 +39,8 @@ namespace Mercenary.Managers
                 endTime = DateTime.Now;
 
                 int timeTaken = (int)(endTime - startTime).TotalSeconds;
-                totalTakenTimeText.text += timeTaken + "Seconds";
+                totalTakenTimeText.text += timeTaken + " Seconds";
 
-                
                 //Server side statistics update
                 UpdatePlayerStatistics(timeTaken);
             }
