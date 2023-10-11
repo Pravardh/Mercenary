@@ -1,6 +1,4 @@
-using Mercenary.Animations;
 using Mercenary.HealthSystem;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +8,7 @@ namespace Mercenary.StateMachine
     public class EnemyAttackState : BaseEnemyState
     {
         private bool isAttacking = false;
+        private bool hasSubscribed = false;
         public EnemyAttackState(GameObject _characterReference, Transform _characterEyes, Animator _characterAnimator, IHealthSystem _characterHealthSystem, Transform _waypoint1, Transform _waypoint2) : base(_characterReference, _characterEyes, _characterAnimator, _characterHealthSystem, _waypoint1, _waypoint2)
         {
             characterState = EnemyStates.ATTACK;   
@@ -17,10 +16,12 @@ namespace Mercenary.StateMachine
 
         public override void OnBegin()
         {
-            characterAnimator.SetTrigger("isAttacking");
-
+<<<<<<< HEAD
+<<<<<<< HEAD
             EnemyAnimationEvents.OnEnemyAttack += AttackPlayer;
 
+            characterAnimator.SetTrigger("isAttacking");
+            AttackPlayer();
             base.OnBegin();
         }
 
@@ -33,21 +34,38 @@ namespace Mercenary.StateMachine
                 Debug.Log("Attacked Enemy: " + attackedEnemy);
     
 
-                    attackedEnemy.Kill();
+                attackedEnemy.Kill();
             }
         }
 
+=======
+            characterAnimator.SetTrigger("isAttacking");
+            base.OnBegin();
+        }
+>>>>>>> parent of ebb1ef1 (Bug fixes and animation event handlers)
+=======
+            characterAnimator.SetTrigger("isAttacking");
+            base.OnBegin();
+        }
+>>>>>>> parent of ebb1ef1 (Bug fixes and animation event handlers)
         public override void OnTick()
         {
             base.OnTick();
 
-            AnimatorStateInfo enemyAnimInfo = characterAnimator.GetCurrentAnimatorStateInfo(0);
-            if (enemyAnimInfo.IsName("AttackSkeleton") && enemyAnimInfo.normalizedTime >= 1.0f)
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> parent of ebb1ef1 (Bug fixes and animation event handlers)
+            IHealthSystem attackedEnemy = TryAttackEnemyInRange();
+            
+            if (attackedEnemy != null && !isAttacking)
             {
-                //If animation switched then change to idle state.
-
-                SwitchState(new EnemyPatrolState(characterReference, characterEyes, characterAnimator, characterHealthSystem, waypoint1, waypoint2));
+                //Time.timeScale = .25f;
+                
+                attackedEnemy.Kill();
             }
+>>>>>>> parent of ebb1ef1 (Bug fixes and animation event handlers)
         }
 
         public override void OnEnd()

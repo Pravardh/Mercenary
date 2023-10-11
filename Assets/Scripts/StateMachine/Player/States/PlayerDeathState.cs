@@ -15,13 +15,11 @@ namespace Mercenary.StateMachine
 
         }
 
-        public override void OnBegin()
+        public override async void OnBegin()
         {
             playerInputReader.enabled = false;
-            characterReference.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
-            playerRigidbody.gravityScale = 0;
 
-            PlayDeath();
+            await PlayDeath();
 
             base.OnBegin();
         }
@@ -40,8 +38,9 @@ namespace Mercenary.StateMachine
         }
 
 
-        private void PlayDeath()
+        private async Task PlayDeath()
         {
+            await Task.Delay(TimeSpan.FromSeconds(0.6f));
             characterAnimator.SetTrigger("isDead");
         }
 

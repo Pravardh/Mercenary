@@ -10,7 +10,6 @@ namespace Mercenary.Animations
     {
         public static event Action OnEnemyAttack;
 
-
         public void AttackPlayer()
         {
             OnEnemyAttack?.Invoke();

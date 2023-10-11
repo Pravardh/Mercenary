@@ -84,8 +84,7 @@ namespace Mercenary.StateMachine
             //Check to see if a health component is in range. if it is then return the game object. This is 
             //useful for the AI
 
-
-            Vector2 _startPosition = characterEyes.position;
+            Vector2 _startPosition = characterEyes.transform.position;
 
             RaycastHit2D hitInfo = Physics2D.Raycast(
                 _startPosition,
@@ -107,7 +106,6 @@ namespace Mercenary.StateMachine
 
         protected IHealthSystem TryAttackEnemyInRange()
         {
-            //Returns null if enemy is not in attack range
 
             GameObject enemyRef = TryDetectEnemyInRange();
 

@@ -75,8 +75,10 @@ namespace Mercenary.StateMachine
                 return null;
             }
 
-            if (characterEyes == null) return null;
-
+            if (characterEyes == null)
+            {
+                characterReference.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            }
 
             Vector2 _startPosition = characterEyes.position;
 

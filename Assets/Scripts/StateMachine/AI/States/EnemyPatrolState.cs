@@ -35,7 +35,6 @@ namespace Mercenary.StateMachine
             else
             {
                 SwitchState(new EnemyChaseState(characterReference, characterEyes, characterAnimator, characterHealthSystem, waypoint1, waypoint2));
-
             }
         }
 
