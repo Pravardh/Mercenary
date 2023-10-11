@@ -61,6 +61,7 @@ namespace Mercenary.StateMachine
                 playerInputReader.EnableInput();
             }
         }
+
     }
 
 }
