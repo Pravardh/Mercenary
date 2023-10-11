@@ -84,6 +84,7 @@ namespace Mercenary.StateMachine
             //Check to see if a health component is in range. if it is then return the game object. This is 
             //useful for the AI
 
+
             Vector2 _startPosition = characterEyes.position;
 
             RaycastHit2D hitInfo = Physics2D.Raycast(

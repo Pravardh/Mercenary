@@ -75,6 +75,8 @@ namespace Mercenary.StateMachine
                 return null;
             }
 
+            if (characterEyes == null) return null;
+
 
             Vector2 _startPosition = characterEyes.position;
 
@@ -89,7 +91,6 @@ namespace Mercenary.StateMachine
             {
                 if (hitInfo.transform.gameObject.TryGetComponent(out PlayerHealthComponent _healthComponent))
                 {
-                    Debug.Log(hitInfo.transform.gameObject.name);
                     return hitInfo.transform.gameObject;
                 }
             }

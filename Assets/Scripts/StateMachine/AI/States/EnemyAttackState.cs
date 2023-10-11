@@ -30,9 +30,10 @@ namespace Mercenary.StateMachine
 
             if (attackedEnemy != null && !isAttacking)
             {
-                //Time.timeScale = .25f;
+                Debug.Log("Attacked Enemy: " + attackedEnemy);
+    
 
-                attackedEnemy.Kill();
+                    attackedEnemy.Kill();
             }
         }
 
@@ -53,6 +54,8 @@ namespace Mercenary.StateMachine
         {
             Debug.Log("Has finished attacking");
             characterAnimator.ResetTrigger("isAttacking");
+            EnemyAnimationEvents.OnEnemyAttack -= AttackPlayer;
+
             isAttacking = false;
             base.OnEnd();
         }
