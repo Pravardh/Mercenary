@@ -16,10 +16,6 @@ namespace Mercenary.StateMachine
 
         public override void OnBegin()
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            EnemyAnimationEvents.OnEnemyAttack += AttackPlayer;
-
             characterAnimator.SetTrigger("isAttacking");
             AttackPlayer();
             base.OnBegin();
@@ -38,25 +34,10 @@ namespace Mercenary.StateMachine
             }
         }
 
-=======
-            characterAnimator.SetTrigger("isAttacking");
-            base.OnBegin();
-        }
->>>>>>> parent of ebb1ef1 (Bug fixes and animation event handlers)
-=======
-            characterAnimator.SetTrigger("isAttacking");
-            base.OnBegin();
-        }
->>>>>>> parent of ebb1ef1 (Bug fixes and animation event handlers)
         public override void OnTick()
         {
             base.OnTick();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of ebb1ef1 (Bug fixes and animation event handlers)
             IHealthSystem attackedEnemy = TryAttackEnemyInRange();
             
             if (attackedEnemy != null && !isAttacking)
@@ -65,14 +46,12 @@ namespace Mercenary.StateMachine
                 
                 attackedEnemy.Kill();
             }
->>>>>>> parent of ebb1ef1 (Bug fixes and animation event handlers)
         }
 
         public override void OnEnd()
         {
             Debug.Log("Has finished attacking");
             characterAnimator.ResetTrigger("isAttacking");
-            EnemyAnimationEvents.OnEnemyAttack -= AttackPlayer;
 
             isAttacking = false;
             base.OnEnd();
