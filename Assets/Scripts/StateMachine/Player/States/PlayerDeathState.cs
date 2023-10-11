@@ -19,6 +19,7 @@ namespace Mercenary.StateMachine
         {
             playerInputReader.enabled = false;
             characterReference.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+            playerRigidbody.gravityScale = 0;
 
             PlayDeath();
 
