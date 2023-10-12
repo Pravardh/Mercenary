@@ -1,4 +1,6 @@
+using Mercenary.Animations;
 using Mercenary.HealthSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,20 +18,34 @@ namespace Mercenary.StateMachine
         public override void OnBegin()
         {
             characterAnimator.SetTrigger("isAttacking");
+
+            characterReference.gameObject.GetComponent<PlayerAnimationEvents>().OnPlayerAttack += AtackPlayer;
+            characterReference.gameObject.GetComponent<PlayerAnimationEvents>().OnPlayerAttackEnd += StopAttackPlayer;
             base.OnBegin();
         }
+
+        private void StopAttackPlayer()
+        {
+            SwitchState(new EnemyChaseState(characterReference, characterEyes, characterAnimator, characterHealthSystem, waypoint1, waypoint2));    
+        }
+
+        private void AtackPlayer()
+        {
+            IHealthSystem attackedEnemy = TryAttackEnemyInRange();
+
+            if (attackedEnemy != null && !isAttacking)
+            {
+
+                attackedEnemy.Kill();
+                
+            }
+        }
+
         public override void OnTick()
         {
             base.OnTick();
 
-            IHealthSystem attackedEnemy = TryAttackEnemyInRange();
-            
-            if (attackedEnemy != null && !isAttacking)
-            {
-                //Time.timeScale = .25f;
-                
-                attackedEnemy.Kill();
-            }
+
         }
 
         public override void OnEnd()
