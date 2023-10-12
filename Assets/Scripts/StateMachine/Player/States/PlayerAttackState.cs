@@ -2,12 +2,16 @@ using Mercenary.HealthSystem;
 using Mercenary.Input;
 using Mercenary.Audio;
 using UnityEngine;
+using Mercenary.Animations;
+using System;
 
 namespace Mercenary.StateMachine
 {
     public class PlayerAttackState : BasePlayerState
     {
         private IHealthSystem enemyToAttack;
+        private PlayerAnimationEvents playerAnimationEvents;
+
         public PlayerAttackState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, PlayerInputReader inputReader, Rigidbody2D rigidbody, Transform groundCheck, AudioHandler audioHandler) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem, rigidbody, inputReader, groundCheck, audioHandler)
         {
             characterAttackRange = 2.5f;
@@ -16,41 +20,51 @@ namespace Mercenary.StateMachine
         public override void OnBegin()
         {
             //Play respective audio 
+            playerAnimationEvents = characterReference.GetComponent<PlayerAnimationEvents>();
 
-            playerAudioHandler.PlayAudio("KnifeStab", true);
+            playerAnimationEvents.OnPlayerAttack += AttackEnemy;
+            playerAnimationEvents.OnPlayerAttackEnd += StopAttacking;
 
             characterAnimator.SetTrigger("isAttacking");
-            Debug.Log("Is attacking;");
+            playerAudioHandler.PlayAudio("KnifeStab", true);
+
             base.OnBegin();
         }
+
 
         public override void OnTick()
         {
             base.OnTick();
 
-            enemyToAttack = TryAttackEnemyInRange();
-
-            if (enemyToAttack != null )
-            {
-                //If I can attack an enemy, kill that enemy. 
-
-                enemyToAttack.Kill();
-                enemyToAttack = null;
-            }
-
-            AnimatorStateInfo playerAnimInfo = characterAnimator.GetCurrentAnimatorStateInfo(0);
-            if (playerAnimInfo.IsName("Attack") && playerAnimInfo.normalizedTime >= 1.0f)
-            {
-                //If animation switched then change to idle state.
-
-               SwitchState(new PlayerIdleState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler));
-            }
         }
         public override void OnEnd()
         {
             characterAnimator.ResetTrigger("isAttacking");
 
             base.OnEnd();
+        }
+
+        private void AttackEnemy()
+        {
+            enemyToAttack = TryAttackEnemyInRange();
+
+            Debug.Log(enemyToAttack == null);
+
+            if (enemyToAttack != null)
+            {
+                //If I can attack an enemy, kill that enemy. 
+
+                enemyToAttack.Kill();
+                Debug.Log("Kill enemy");
+                enemyToAttack = null;
+            }
+        }
+
+
+        private void StopAttacking()
+        {
+               SwitchState(new PlayerIdleState(characterReference, characterEyes, characterAnimator, characterHealthSystem, playerInputReader, playerRigidbody, playerGroundCheck, playerAudioHandler));
+
         }
     }
 

@@ -89,7 +89,6 @@ namespace Mercenary.StateMachine
             {
                 if (hitInfo.transform.gameObject.TryGetComponent(out PlayerHealthComponent _healthComponent))
                 {
-                    Debug.Log(hitInfo.transform.gameObject.name);
                     return hitInfo.transform.gameObject;
                 }
             }
