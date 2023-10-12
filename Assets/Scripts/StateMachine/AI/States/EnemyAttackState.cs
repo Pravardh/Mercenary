@@ -10,6 +10,7 @@ namespace Mercenary.StateMachine
     public class EnemyAttackState : BaseEnemyState
     {
         private bool isAttacking = false;
+        private AnimationEvents enemyAnimationEvents;
         public EnemyAttackState(GameObject _characterReference, Transform _characterEyes, Animator _characterAnimator, IHealthSystem _characterHealthSystem, Transform _waypoint1, Transform _waypoint2) : base(_characterReference, _characterEyes, _characterAnimator, _characterHealthSystem, _waypoint1, _waypoint2)
         {
             characterState = EnemyStates.ATTACK;   
@@ -19,8 +20,10 @@ namespace Mercenary.StateMachine
         {
             characterAnimator.SetTrigger("isAttacking");
 
-            characterReference.gameObject.GetComponent<PlayerAnimationEvents>().OnPlayerAttack += AtackPlayer;
-            characterReference.gameObject.GetComponent<PlayerAnimationEvents>().OnPlayerAttackEnd += StopAttackPlayer;
+            enemyAnimationEvents = characterReference.GetComponent<AnimationEvents>();
+
+            enemyAnimationEvents.OnAttack += AttackPlayer;
+            enemyAnimationEvents.OnAttackEnd += StopAttackPlayer;
             base.OnBegin();
         }
 
@@ -29,7 +32,7 @@ namespace Mercenary.StateMachine
             SwitchState(new EnemyChaseState(characterReference, characterEyes, characterAnimator, characterHealthSystem, waypoint1, waypoint2));    
         }
 
-        private void AtackPlayer()
+        private void AttackPlayer()
         {
             IHealthSystem attackedEnemy = TryAttackEnemyInRange();
 
@@ -53,6 +56,10 @@ namespace Mercenary.StateMachine
             Debug.Log("Has finished attacking");
             characterAnimator.ResetTrigger("isAttacking");
             isAttacking = false;
+
+            enemyAnimationEvents.OnAttack -= AttackPlayer;
+            enemyAnimationEvents.OnAttackEnd -= StopAttackPlayer;
+
             base.OnEnd();
         }
 

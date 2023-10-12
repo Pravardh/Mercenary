@@ -18,6 +18,8 @@ namespace Mercenary.StateMachine
         public override void OnBegin()
         {
             playerInputReader.enabled = false;
+            characterReference.GetComponent<CapsuleCollider2D>().enabled = false;
+            playerRigidbody.gravityScale = 0;
 
             PlayDeath();
 

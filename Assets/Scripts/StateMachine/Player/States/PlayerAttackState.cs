@@ -10,7 +10,7 @@ namespace Mercenary.StateMachine
     public class PlayerAttackState : BasePlayerState
     {
         private IHealthSystem enemyToAttack;
-        private PlayerAnimationEvents playerAnimationEvents;
+        private AnimationEvents playerAnimationEvents;
 
         public PlayerAttackState(GameObject characterReference, Transform characterEyes, Animator characterAnimator, IHealthSystem characterHealthSystem, PlayerInputReader inputReader, Rigidbody2D rigidbody, Transform groundCheck, AudioHandler audioHandler) : base(characterReference, characterEyes, characterAnimator, characterHealthSystem, rigidbody, inputReader, groundCheck, audioHandler)
         {
@@ -20,10 +20,10 @@ namespace Mercenary.StateMachine
         public override void OnBegin()
         {
             //Play respective audio 
-            playerAnimationEvents = characterReference.GetComponent<PlayerAnimationEvents>();
+            playerAnimationEvents = characterReference.GetComponent<AnimationEvents>();
 
-            playerAnimationEvents.OnPlayerAttack += AttackEnemy;
-            playerAnimationEvents.OnPlayerAttackEnd += StopAttacking;
+            playerAnimationEvents.OnAttack += AttackEnemy;
+            playerAnimationEvents.OnAttackEnd += StopAttacking;
 
             characterAnimator.SetTrigger("isAttacking");
             playerAudioHandler.PlayAudio("KnifeStab", true);
@@ -40,6 +40,9 @@ namespace Mercenary.StateMachine
         public override void OnEnd()
         {
             characterAnimator.ResetTrigger("isAttacking");
+
+            playerAnimationEvents.OnAttack -= AttackEnemy;
+            playerAnimationEvents.OnAttackEnd -= StopAttacking;
 
             base.OnEnd();
         }
